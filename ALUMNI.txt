@@ -1,0 +1,58 @@
+DROP TABLE Student CASCADE;
+DROP TABLE University;
+DROP TABLE Message;
+DROP TABLE Image;
+DROP TABLE Friends;
+
+CREATE TABLE University
+(
+  uni_id SERIAL PRIMARY KEY NOT NULL,
+  uni_name varchar(100),
+  uni_addr1 varchar(100),
+  uni_addr2 varchar(100),
+  uni_addr3 varchar(100),
+  uni_addr4 varchar(100),
+  uni_postcode varchar(10),
+  uni_email varchar(50),
+  uni_description text
+);
+
+CREATE TABLE Student
+(
+  student_id SERIAL PRIMARY KEY NOT NULL,
+  student_name varchar(25),
+  password varchar(25),
+  full_name varchar(40),
+  email varchar(50),
+  uni_id int,
+  years varchar(12),
+  course varchar(100),
+  status varchar(250),
+  FOREIGN KEY (uni_id) REFERENCES University(uni_id)
+);
+
+CREATE TABLE Message
+(
+  msg_id SERIAL PRIMARY KEY NOT NULL,
+  from_id int,
+  to_id int,
+  message_text varchar(250),
+  time_sent timestamp,
+  msg_status varchar(6),
+  FOREIGN KEY (from_id) REFERENCES Student(student_id),
+  FOREIGN KEY (to_id) REFERENCES Student(student_id)
+);
+
+CREATE TABLE Image
+(
+  image_id int PRIMARY KEY NOT NULL,
+  image_path varchar(100),
+  image_id2 bytea,
+);
+
+CREATE TABLE Friends
+(
+  student_id int PRIMARY KEY NOT NULL,
+  friends_id int,
+  FOREIGN KEY (friends_id) REFERENCES Student(student_id)
+);
